@@ -14,26 +14,28 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from users.views import RegisterView
+from django.urls import path, include
 from mileage.views import MileageListView
 from payments.views import CardCreateView
 from store.views import StoreListView
-from users.views import LogoutView
+from users.api import LogoutAPI, UserDetailAPI, RegisterAPI
 from reviews.views import ReviewCreateView, ReviewListView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('register/', RegisterView.as_view(), name='auth_register'),
-    path('logout/', LogoutView.as_view(), name='auth_logout'),
-    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('register/', RegisterView.as_view(), name='register'),
-    path('my-mileage/', MileageListView.as_view(), name='mileage-list'),
-    path('add-card/', CardCreateView.as_view(), name='add-card'),
-    path('stores/', StoreListView.as_view(), name='store-list'),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('admin/', admin.site.urls),  # Django 관리자 페이지
+    path('me/', UserDetailAPI.as_view(), name='user_detail'),  # 사용자 정보 조회 API
+    path('register/', RegisterAPI.as_view(), name='auth_register'),  # 사용자 등록 API
+    path('logout/', LogoutAPI.as_view(), name='auth_logout'),  # 로그아웃 API
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # 토큰 갱신
+    path('my-mileage/', MileageListView.as_view(), name='mileage-list'),  # 마일리지 조회
+    path('add-card/', CardCreateView.as_view(), name='add-card'),  # 카드 추가
+    path('stores/', StoreListView.as_view(), name='store-list'),  # 스토어 목록 조회
+    path('api/auth/', include('dj_rest_auth.urls')),  # 인증 관련 URL들 (로그인, 패스워드 리셋 등)
+    path('api/auth/registration/', include('dj_rest_auth.registration.urls')),  # 회원가입 관련 URL들
     path('create/', ReviewCreateView.as_view(), name='review-create'),
-    path('list/', ReviewListView.as_view(), name='review-list'),
-    
+    path('list/', ReviewListView.as_view(), name='review-list'),  # 리뷰 목록 조회
 ]
+
