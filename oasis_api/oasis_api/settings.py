@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'payments',
     'store',
     'reviews',
+    'flutterproject1',
 ]
 
 AUTHENTICATION_BACKENDS = (
