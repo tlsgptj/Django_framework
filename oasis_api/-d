@@ -1,0 +1,4 @@
+{"card_number":["This field is required."],"expiry_date":["This field is required."],"cardholder_name":["This field is required."],"cvv":["This field is required."]}--_curl_--"card_number": "1234567812345678"
+--_curl_-- "expiry_date": "12/25"
+--_curl_-- "cardholder_name": "John Doe"
+--_curl_-- "cvv": "123"

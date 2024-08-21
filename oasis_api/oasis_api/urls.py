@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from mileage.views import MileageListView
-from payments.views import CardCreateView
+from payments.views import register_card
 from store.views import StoreListView
 from users.api import LogoutAPI, UserDetailAPI, RegisterAPI
 from reviews.views import ReviewCreateView, ReviewListView
@@ -31,7 +31,7 @@ urlpatterns = [
     path('logout/', LogoutAPI.as_view(), name='auth_logout'),  # 로그아웃 API
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # 토큰 갱신
     path('my-mileage/', MileageListView.as_view(), name='mileage-list'),  # 마일리지 조회
-    path('add-card/', CardCreateView.as_view(), name='add-card'),  # 카드 추가
+    path('api/', include('payments.urls')),
     path('stores/', StoreListView.as_view(), name='store-list'),  # 스토어 목록 조회
     path('api/auth/', include('dj_rest_auth.urls')),  # 인증 관련 URL들 (로그인, 패스워드 리셋 등)
     path('api/auth/registration/', include('dj_rest_auth.registration.urls')),  # 회원가입 관련 URL들
