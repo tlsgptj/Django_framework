@@ -4,4 +4,6 @@ from .models import Mileage
 class MileageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mileage
-        fields = '__all__'
+        fields = ['points', 'date', 'description']
+
+

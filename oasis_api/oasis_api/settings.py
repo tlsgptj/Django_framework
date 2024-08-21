@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'payments',
     'store',
     'reviews',
+    'cash'
 ]
 
 AUTHENTICATION_BACKENDS = (

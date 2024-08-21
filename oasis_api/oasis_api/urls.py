@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from mileage.views import MileageListView
+from mileage.views import PaymentView
+from mileage.views import MileageListView
 from payments.views import register_card
 from store.views import StoreListView
 from users.api import LogoutAPI, UserDetailAPI, RegisterAPI
@@ -23,6 +25,8 @@ from reviews.views import ReviewCreateView, ReviewListView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
+    path('mileage/', MileageListView.as_view(), name='mileage-list'),
+    path('payment/', PaymentView.as_view(), name='payment'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('admin/', admin.site.urls),  # Django 관리자 페이지
