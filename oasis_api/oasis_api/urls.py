@@ -21,10 +21,11 @@ from mileage.views import MileageListView
 from payments.views import register_card
 from store.views import StoreListView
 from users.api import LogoutAPI, UserDetailAPI, RegisterAPI
-from reviews.views import ReviewCreateView, ReviewListView
+from reviews.views import ReviewCreateView, ReviewListView, MyReviewListView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
+    path('register_card/', register_card, name='register_card'),
     path('mileage/', MileageListView.as_view(), name='mileage-list'),
     path('payment/', PaymentView.as_view(), name='payment'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -40,6 +41,7 @@ urlpatterns = [
     path('api/auth/', include('dj_rest_auth.urls')),  # 인증 관련 URL들 (로그인, 패스워드 리셋 등)
     path('api/auth/registration/', include('dj_rest_auth.registration.urls')),  # 회원가입 관련 URL들
     path('create/', ReviewCreateView.as_view(), name='review-create'),
-    path('list/', ReviewListView.as_view(), name='review-list'),  # 리뷰 목록 조회
+    path('my-reviews/', MyReviewListView.as_view(), name='my-review-list'),  # 내 리뷰 조회
+    path('all-reviews/', ReviewListView.as_view(), name='all-review-list'),  # 모든 리뷰 조회
 ]
 

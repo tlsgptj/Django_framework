@@ -6,4 +6,4 @@ class ReviewSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     class Meta:
         model = Review
-        fields = '__all__'
+        fields = ['title', 'content', 'date']
