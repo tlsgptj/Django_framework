@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'store',
     'reviews',
     'cash',
-    'BacktotheLocal'
+    'BacktotheLocal',
+    'gift'
 ]
 
 AUTHENTICATION_BACKENDS = (
