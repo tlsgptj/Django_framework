@@ -1,51 +1,46 @@
-"""oasis_api URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/2.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
-from mileage.views import MileageListView
-from mileage.views import PaymentView
 from mileage.views import MileageListView
 from payments.views import register_card
 from gift.views import purchase_gifticon, GifticonViewSet, UserGifticonViewSet
 from store.views import StoreListView
 from users.api import LogoutAPI, UserDetailAPI, RegisterAPI
 from reviews.views import ReviewCreateView, ReviewListView, MyReviewListView
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework.routers import DefaultRouter
+from users.views import CustomTokenObtainPairView, CustomTokenRefreshView
+
+# DRF Router 설정
+router = DefaultRouter()
+router.register(r'gifticons', GifticonViewSet, basename='gifticon')
+router.register(r'my-gifticons', UserGifticonViewSet, basename='user_gifticon')
 
 urlpatterns = [
-    path('gifticons/', GifticonViewSet, name='gifticons'),
-    path('my-gifticons/', UserGifticonViewSet, name='user_gifticon'),
-    path('purchase/', purchase_gifticon, name='purchase_gifticon'),
+    # 관리자 페이지
+    path('admin/', admin.site.urls),
+    
+    # 인증 및 사용자 관련 API
+    path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', CustomTokenRefreshView.as_view(), name='token_refresh'),
+    path('me/', UserDetailAPI.as_view(), name='user_detail'),
+    path('register/', RegisterAPI.as_view(), name='auth_register'),
+    path('logout/', LogoutAPI.as_view(), name='auth_logout'),
+    path('api/auth/', include('dj_rest_auth.urls')),
+    path('api/auth/registration/', include('dj_rest_auth.registration.urls')),
+
+    # 마일리지 및 결제 관련 API
     path('register_card/', register_card, name='register_card'),
-    path('mileage/', MileageListView.as_view(), name='mileage-list'),
-    path('payment/', PaymentView.as_view(), name='payment'),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('admin/', admin.site.urls),  # Django 관리자 페이지
-    path('me/', UserDetailAPI.as_view(), name='user_detail'),  # 사용자 정보 조회 API
-    path('register/', RegisterAPI.as_view(), name='auth_register'),  # 사용자 등록 API
-    path('logout/', LogoutAPI.as_view(), name='auth_logout'),  # 로그아웃 API
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # 토큰 갱신
-    path('my-mileage/', MileageListView.as_view(), name='mileage-list'),  # 마일리지 조회
-    path('api/', include('payments.urls')),
-    path('stores/', StoreListView.as_view(), name='store-list'),  # 스토어 목록 조회
-    path('api/auth/', include('dj_rest_auth.urls')),  # 인증 관련 URL들 (로그인, 패스워드 리셋 등)
-    path('api/auth/registration/', include('dj_rest_auth.registration.urls')),  # 회원가입 관련 URL들
+    path('my-mileage/', MileageListView.as_view(), name='mileage-list'),
+
+    # 기프티콘 관련 API
+    path('purchase/', purchase_gifticon, name='purchase_gifticon'),
+
+    # 스토어 및 리뷰 관련 API
+    path('stores/', StoreListView.as_view(), name='store-list'),
     path('create/', ReviewCreateView.as_view(), name='review-create'),
-    path('my-reviews/', MyReviewListView.as_view(), name='my-review-list'),  # 내 리뷰 조회
-    path('all-reviews/', ReviewListView.as_view(), name='all-review-list'),  # 모든 리뷰 조회
+    path('my-reviews/', MyReviewListView.as_view(), name='my-review-list'),
+    path('all-reviews/', ReviewListView.as_view(), name='all-review-list'),
+
+    # Gifticon 관련 ViewSet 연결
+    path('api/', include(router.urls)),
 ]
 

@@ -40,10 +40,10 @@ INSTALLED_APPS = [
     'payments',
     'store',
     'reviews',
-    'cash',
-    'BacktotheLocal',
     'gift'
 ]
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
@@ -53,7 +53,7 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 
 REST_AUTH_SERIALIZERS = {
-    'TOKEN_SERIALIZER': 'path.to.CustomTokenSerializer',
+    'TOKEN_SERIALIZER': 'path.to.CustomTokenObtainPairSerializer',
 }
 
 REST_FRAMEWORK = {
