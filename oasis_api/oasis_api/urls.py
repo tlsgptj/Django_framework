@@ -19,13 +19,15 @@ from mileage.views import MileageListView
 from mileage.views import PaymentView
 from mileage.views import MileageListView
 from payments.views import register_card
-from gift.views import purchase_gifticon
+from gift.views import purchase_gifticon, GifticonViewSet, UserGifticonViewSet
 from store.views import StoreListView
 from users.api import LogoutAPI, UserDetailAPI, RegisterAPI
 from reviews.views import ReviewCreateView, ReviewListView, MyReviewListView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
+    path('gifticons/', GifticonViewSet, name='gifticons'),
+    path('my-gifticons/', UserGifticonViewSet, name='user_gifticon'),
     path('purchase/', purchase_gifticon, name='purchase_gifticon'),
     path('register_card/', register_card, name='register_card'),
     path('mileage/', MileageListView.as_view(), name='mileage-list'),
