@@ -30,11 +30,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         if not user.is_active:
             raise serializers.ValidationError('This account is inactive')
 
-        # 기존의 TokenObtainPairSerializer를 사용하여 토큰 생성
-        data = super().validate({
-            'username': user.username,
-            'password': password
-        })
+        # 기존의 TokenObtainPairSerializer의 validate 메소드를 호출
+        data = super().validate(attrs)
 
         data['user'] = {
             'id': user.id,
