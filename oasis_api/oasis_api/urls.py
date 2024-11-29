@@ -3,7 +3,6 @@ from django.urls import path, include
 from mileage.views import MileageListView
 from payments.views import register_card
 from gift.views import purchase_gifticon, GifticonViewSet, UserGifticonViewSet
-from store.views import StoreListView
 from users.api import LogoutAPI, UserDetailAPI, RegisterAPI
 from reviews.views import ReviewCreateView, ReviewListView, MyReviewListView
 from rest_framework.routers import DefaultRouter
@@ -35,7 +34,6 @@ urlpatterns = [
     path('purchase/', purchase_gifticon, name='purchase_gifticon'),
 
     # 스토어 및 리뷰 관련 API
-    path('stores/', StoreListView.as_view(), name='store-list'),
     path('create/', ReviewCreateView.as_view(), name='review-create'),
     path('my-reviews/', MyReviewListView.as_view(), name='my-review-list'),
     path('all-reviews/', ReviewListView.as_view(), name='all-review-list'),

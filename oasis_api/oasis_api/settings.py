@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'users',
     'mileage',
-    'payments',
     'store',
+    'payments',
     'reviews',
     'gift'
 ]
